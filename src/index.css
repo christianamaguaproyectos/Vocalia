@@ -1,0 +1,43 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  /* Prevent text size inflation on orientation change */
+  html {
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+  }
+
+  /* Safe area insets for devices with notch */
+  body {
+    padding-top: env(safe-area-inset-top);
+    padding-bottom: env(safe-area-inset-bottom);
+    padding-left: env(safe-area-inset-left);
+    padding-right: env(safe-area-inset-right);
+    -webkit-tap-highlight-color: transparent;
+    overscroll-behavior-y: contain;
+  }
+
+  /* Minimum touch target size - 44x44px */
+  button, a, [role="button"], input[type="checkbox"], input[type="radio"] {
+    min-height: 44px;
+    min-width: 44px;
+  }
+
+  /* Prevent zoom on input focus (iOS) */
+  input, select, textarea {
+    font-size: 16px;
+  }
+}
+
+@layer utilities {
+  /* Utility to hide scrollbar but keep scroll */
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+}

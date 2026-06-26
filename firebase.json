@@ -1,0 +1,53 @@
+{
+  "firestore": {
+    "rules": "firestore.rules"
+  },
+  "database": {
+    "rules": "database.rules.json"
+  },
+  "hosting": {
+    "public": "dist",
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**"
+    ],
+    "headers": [
+      {
+        "source": "**",
+        "headers": [
+          {
+            "key": "Strict-Transport-Security",
+            "value": "max-age=31536000; includeSubDomains; preload"
+          },
+          {
+            "key": "X-Content-Type-Options",
+            "value": "nosniff"
+          },
+          {
+            "key": "X-Frame-Options",
+            "value": "DENY"
+          },
+          {
+            "key": "Referrer-Policy",
+            "value": "strict-origin-when-cross-origin"
+          },
+          {
+            "key": "Permissions-Policy",
+            "value": "camera=(), microphone=(), geolocation=()"
+          },
+          {
+            "key": "Content-Security-Policy",
+            "value": "default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'none'; script-src 'self' 'unsafe-inline' https://www.gstatic.com https://www.googletagmanager.com https://www.google-analytics.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; img-src 'self' data: blob: https:; font-src 'self' data: https://fonts.gstatic.com; connect-src 'self' https://*.googleapis.com https://*.firebaseio.com https://*.google.com https://securetoken.googleapis.com https://identitytoolkit.googleapis.com https://firestore.googleapis.com https://www.googleapis.com https://region1.google-analytics.com https://www.google-analytics.com wss://*.firebaseio.com https://api.emailjs.com; frame-src 'self' https://*.firebaseapp.com https://*.web.app https://*.google.com; worker-src 'self' blob:; manifest-src 'self'; upgrade-insecure-requests"
+          }
+        ]
+      }
+    ],
+    "rewrites": [
+      {
+        "source": "**",
+        "destination": "/index.html"
+      }
+    ]
+  }
+}

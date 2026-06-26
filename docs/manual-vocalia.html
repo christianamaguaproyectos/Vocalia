@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Guía de Vocalía – Copa Mazorca de Oro</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Segoe UI', Arial, sans-serif;
+      font-size: 11pt;
+      color: #1e293b;
+      background: #fff;
+      line-height: 1.65;
+    }
+
+    /* PORTADA */
+    .cover {
+      page-break-after: always;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      background: #1e293b;
+      color: #fff;
+      text-align: center;
+      padding: 40px;
+      gap: 16px;
+    }
+    .cover .ball { font-size: 64px; }
+    .cover h1 { font-size: 28pt; font-weight: 800; }
+    .cover .tagline { font-size: 13pt; color: #94a3b8; }
+    .cover .sub {
+      margin-top: 24px;
+      background: #334155;
+      padding: 10px 24px;
+      border-radius: 20px;
+      font-size: 11pt;
+      color: #cbd5e1;
+    }
+
+    /* CONTENIDO */
+    .page { max-width: 680px; margin: 0 auto; padding: 28px 36px; page-break-after: always; }
+    .page:last-child { page-break-after: auto; }
+
+    h2 {
+      font-size: 16pt;
+      font-weight: 800;
+      color: #1e293b;
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    h2 .num {
+      background: #4f46e5;
+      color: #fff;
+      font-size: 11pt;
+      width: 30px; height: 30px;
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+    }
+    h3 { font-size: 10.5pt; font-weight: 700; color: #4f46e5; margin: 18px 0 6px; }
+
+    p { margin-bottom: 10px; font-size: 10.5pt; }
+
+    /* PASOS */
+    .steps { list-style: none; padding: 0; margin: 10px 0 14px; }
+    .steps li {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 8px;
+      font-size: 10.5pt;
+      align-items: flex-start;
+    }
+    .steps li .dot {
+      background: #e0e7ff;
+      color: #4f46e5;
+      font-weight: 800;
+      font-size: 9pt;
+      min-width: 22px; height: 22px;
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+
+    /* FOTO PLACEHOLDER */
+    .foto {
+      border: 2px dashed #c7d2fe;
+      background: #eef2ff;
+      border-radius: 10px;
+      padding: 18px 16px;
+      text-align: center;
+      margin: 12px 0;
+      color: #4338ca;
+    }
+    .foto .titulo { font-weight: 700; font-size: 10pt; margin-bottom: 3px; }
+    .foto .pista { font-size: 9pt; color: #6366f1; }
+
+    /* NOTAS */
+    .nota {
+      background: #fffbeb;
+      border-left: 3px solid #f59e0b;
+      padding: 9px 12px;
+      border-radius: 0 6px 6px 0;
+      font-size: 10pt;
+      margin: 10px 0;
+      color: #78350f;
+    }
+    .ok {
+      background: #f0fdf4;
+      border-left: 3px solid #22c55e;
+      padding: 9px 12px;
+      border-radius: 0 6px 6px 0;
+      font-size: 10pt;
+      margin: 10px 0;
+      color: #14532d;
+    }
+
+    /* TARJETAS DE EVENTO */
+    .eventos {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin: 12px 0;
+    }
+    .evento-card {
+      border: 1px solid #e2e8f0;
+      border-radius: 8px;
+      padding: 10px 12px;
+      font-size: 10pt;
+    }
+    .evento-card .icon { font-size: 18pt; }
+    .evento-card strong { display: block; margin: 4px 0 2px; font-size: 10pt; }
+    .evento-card span { font-size: 9pt; color: #64748b; }
+
+    /* TABLA RESUMEN */
+    .resumen { width: 100%; border-collapse: collapse; font-size: 10pt; margin: 10px 0; }
+    .resumen th { background: #f1f5f9; padding: 7px 10px; text-align: left; font-weight: 700; border-bottom: 2px solid #e2e8f0; }
+    .resumen td { padding: 7px 10px; border-bottom: 1px solid #f1f5f9; }
+    .resumen tr:last-child td { border-bottom: none; }
+    .check { color: #22c55e; font-weight: 700; }
+
+    /* TARJETAS FAQ */
+    .faq { margin: 10px 0; }
+    .faq-item { border: 1px solid #e2e8f0; border-radius: 8px; padding: 10px 14px; margin-bottom: 8px; }
+    .faq-item .q { font-weight: 700; font-size: 10pt; color: #1e293b; margin-bottom: 4px; }
+    .faq-item .a { font-size: 10pt; color: #475569; }
+
+    @media print {
+      .cover { min-height: 100vh; }
+      @page { margin: 15mm 14mm; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- PORTADA -->
+<div class="cover">
+  <div class="ball">⚽</div>
+  <h1>Guía de Vocalía</h1>
+  <div class="tagline">Copa Mazorca de Oro</div>
+  <div class="sub">Todo lo que necesitas saber para hacer la vocalía</div>
+</div>
+
+<!-- 1. ¿QUÉ ES? -->
+<div class="page">
+  <h2><span class="num">1</span> ¿Qué es la vocalía?</h2>
+  <p>
+    La vocalía es el registro oficial del partido. Tú, como vocal, eres quien anota en tiempo real
+    lo que pasa en la cancha: alineaciones, goles, tarjetas, cambios y el informe al final.
+  </p>
+  <p>
+    El sistema te asigna automáticamente según la rotación del torneo.
+    <strong>Siempre serás vocal de un partido donde no juega tu equipo.</strong>
+  </p>
+
+  <div class="foto">
+    <div class="titulo">📸 CAPTURA 1</div>
+    <div>Pantalla de inicio de la app</div>
+    <div class="pista">Abre vocalia-futbol.web.app y toma captura de la pantalla de inicio</div>
+  </div>
+
+  <h3>¿Necesito una cuenta?</h3>
+  <p>
+    No necesitas registrarte. Accedes con un <strong>código de 6 dígitos</strong> que llega a tu correo
+    antes de cada partido que te toque hacer vocalía.
+  </p>
+
+  <div class="ok">
+    ✅ <strong>Solo el vocal del partido</strong> (o el superadmin) puede registrar eventos.
+    Sin el código, no podrás editar nada.
+  </div>
+</div>
+
+<!-- 2. EL CÓDIGO OTP -->
+<div class="page">
+  <h2><span class="num">2</span> El código que llega al correo</h2>
+  <p>
+    Antes del partido, el administrador genera tu acceso y te llega un correo así:
+  </p>
+
+  <div class="foto">
+    <div class="titulo">📸 CAPTURA 2</div>
+    <div>Correo de asignación de vocalía</div>
+    <div class="pista">Muestra el correo con el código en grande y el botón "Ingresar a la Vocalía"</div>
+  </div>
+
+  <p>El correo trae:</p>
+  <ul class="steps">
+    <li><span class="dot">→</span> El nombre del partido (qué equipos y cuándo)</li>
+    <li><span class="dot">→</span> El <strong>código de 6 dígitos</strong> resaltado</li>
+    <li><span class="dot">→</span> Un botón azul para entrar directo al partido</li>
+  </ul>
+
+  <div class="nota">
+    ⚠️ Si el admin genera un código nuevo, el anterior queda cancelado.
+    Usa siempre el <strong>último correo</strong> que recibiste.
+  </div>
+
+  <h3>¿No llegó el correo?</h3>
+  <p>
+    Revisa spam. Si no está ahí, pídele al administrador que te diga el código directamente —
+    lo puede ver en el panel del partido.
+  </p>
+
+  <div class="foto">
+    <div class="titulo">📸 CAPTURA 3</div>
+    <div>Panel del admin mostrando el código OTP generado (cuadro azul)</div>
+    <div class="pista">Admin → Calendario → partido → sección "Acceso de Vocalía"</div>
+  </div>
+</div>
+
+<!-- 3. CÓMO ENTRAR -->
+<div class="page">
+  <h2><span class="num">3</span> Cómo entrar al partido</h2>
+
+  <ul class="steps">
+    <li><span class="dot">1</span> Abre el correo y haz clic en <strong>"Ingresar a la Vocalía"</strong></li>
+    <li><span class="dot">2</span> Se abre el navegador con la pantalla del partido</li>
+    <li><span class="dot">3</span> Escribe los <strong>6 dígitos</strong> del código</li>
+    <li><span class="dot">4</span> Clic en <strong>"Ingresar a la Vocalía"</strong></li>
+    <li><span class="dot">5</span> ¡Listo! Ya estás dentro</li>
+  </ul>
+
+  <div class="foto">
+    <div class="titulo">📸 CAPTURA 4</div>
+    <div>Pantalla donde se ingresa el código de 6 dígitos</div>
+    <div class="pista">Fondo oscuro, campo de texto con el código y el botón de ingreso</div>
+  </div>
+
+  <p>Si el código fue correcto verás una barra verde arriba que confirma tu sesión:</p>
+
+  <div class="foto">
+    <div class="titulo">📸 CAPTURA 5</div>
+    <div>Barra verde de "sesión activa" en la parte superior</div>
+    <div class="pista">Banner verde que dice "Acceso validado para [tu correo]"</div>
+  </div>
+
+  <div class="nota">
+    ⚠️ Si ves "Código inválido", revisa que estés usando el código del último correo recibido.
+  </div>
+</div>
+
+<!-- 4. ALINEACIONES -->
+<div class="page">
+  <h2><span class="num">4</span> Registrar las alineaciones</h2>
+  <p>
+    Lo primero antes de iniciar el partido: registra quiénes van a jugar en cada equipo.
+  </p>
+
+  <h3>Titulares</h3>
+  <p>
+    Hay 7 espacios por equipo (mínimo 5 para poder jugar). Selecciona a los jugadores del menú
+    que aparece en cada espacio.
+  </p>
+
+  <div class="foto">
+    <div class="titulo">📸 CAPTURA 6</div>
+    <div>Sección de alineaciones con los 7 slots por equipo</div>
+    <div class="pista">Dos columnas con los espacios numerados y menús para seleccionar jugadores</div>
+  </div>
+
+  <h3>Suplentes</h3>
+  <p>
+    Más abajo aparece la lista de jugadores disponibles. Marca los que van al banco.
+    Los que no queden ni de titulares ni de suplentes se registran como "No asistió".
+  </p>
+
+  <div class="foto">
+    <div class="titulo">📸 CAPTURA 7</div>
+    <div>Lista de suplentes con casillas de selección</div>
+  </div>
+
+  <h3>Guardar</h3>
+  <ul class="steps">
+    <li><span class="dot">1</span> Clic en <strong>"Guardar alineación"</strong> del equipo local</li>
+    <li><span class="dot">2</span> Repite para el equipo visitante</li>
+    <li><span class="dot">3</span> Debe aparecer <em>"Confirmado por [tu correo]"</em> en cada uno</li>
+  </ul>
+
+  <div class="foto">
+    <div class="titulo">📸 CAPTURA 8</div>
+    <div>Texto de confirmación debajo del nombre del equipo</div>
+    <div class="pista">"Confirmado por [correo] el [fecha]"</div>
+  </div>
+
+  <div class="nota">
+    ⚠️ Los jugadores que cumplen sanción no aparecen en la lista — el sistema los bloquea solo.
+  </div>
+</div>
+
+<!-- 5. PARTIDO EN VIVO -->
+<div class="page">
+  <h2><span class="num">5</span> El partido en vivo</h2>
+
+  <h3>Iniciar el partido</h3>
+  <p>Con las dos alineaciones guardadas, pulsa <strong>"Iniciar partido"</strong>. El cronómetro empieza.</p>
+
+  <div class="foto">
+    <div class="titulo">📸 CAPTURA 9</div>
+    <div>Panel del partido con el cronómetro corriendo y marcador 0 – 0</div>
+  </div>
+
+  <h3>Registrar eventos durante el partido</h3>
+  <p>Usarás estos botones mientras el partido está en vivo:</p>
+
+  <div class="eventos">
+    <div class="evento-card">
+      <div class="icon">⚽</div>
+      <strong>Gol</strong>
+      <span>Selecciona equipo y jugador. El marcador se actualiza solo.</span>
+    </div>
+    <div class="evento-card">
+      <div class="icon">🟨</div>
+      <strong>Tarjeta</strong>
+      <span>Elige amarilla, doble amarilla o roja. Las sanciones se aplican solas.</span>
+    </div>
+    <div class="evento-card">
+      <div class="icon">🔄</div>
+      <strong>Cambio</strong>
+      <span>Jugador que sale (titular) y jugador que entra (suplente).</span>
+    </div>
+    <div class="evento-card">
+      <div class="icon">📝</div>
+      <strong>Otros</strong>
+      <span>Eventos adicionales según la configuración del torneo.</span>
+    </div>
+  </div>
+
+  <div class="foto">
+    <div class="titulo">📸 CAPTURA 10</div>
+    <div>Botones de registro de eventos (Gol, Tarjeta, Cambio) en el partido en vivo</div>
+  </div>
+
+  <div class="foto">
+    <div class="titulo">📸 CAPTURA 11</div>
+    <div>Formulario de gol abierto (selección de equipo y jugador)</div>
+  </div>
+
+  <div class="foto">
+    <div class="titulo">📸 CAPTURA 12</div>
+    <div>Formulario de tarjeta abierto (tipo de tarjeta y jugador)</div>
+  </div>
+</div>
+
+<!-- 6. TIEMPOS -->
+<div class="page">
+  <h2><span class="num">6</span> Manejar los tiempos</h2>
+
+  <h3>¿Cómo funciona el cronómetro?</h3>
+  <p>
+    El reloj corre solo hasta los <strong>35 minutos</strong> y ahí se para.
+    Eso no significa que el partido terminó — es solo la señal de que el primer tiempo debería acabar.
+    Puedes seguir registrando eventos aunque el reloj esté en 35:00.
+  </p>
+
+  <h3>Flujo de tiempos</h3>
+  <ul class="steps">
+    <li><span class="dot">1</span> El árbitro pita → pulsas <strong>"Fin del primer tiempo"</strong></li>
+    <li><span class="dot">2</span> Esperas el descanso</li>
+    <li><span class="dot">3</span> El árbitro reanuda → pulsas <strong>"Iniciar segundo tiempo"</strong></li>
+    <li><span class="dot">4</span> El cronómetro corre otros 35 minutos</li>
+    <li><span class="dot">5</span> El árbitro pita final → pulsas <strong>"Finalizar partido"</strong></li>
+  </ul>
+
+  <div class="foto">
+    <div class="titulo">📸 CAPTURA 13</div>
+    <div>Botón "Fin del primer tiempo" visible al llegar a 35:00</div>
+  </div>
+
+  <div class="foto">
+    <div class="titulo">📸 CAPTURA 14</div>
+    <div>Partido en estado FINALIZADO con marcador final</div>
+    <div class="pista">Se ven los botones de informe habilitados en la parte inferior</div>
+  </div>
+
+  <div class="ok">
+    ✅ Las sanciones por tarjetas (amarillas acumuladas, doble amarilla, roja) se aplican solas.
+    No tienes que calcular nada.
+  </div>
+</div>
+
+<!-- 7. REPORTES Y ENVÍO -->
+<div class="page">
+  <h2><span class="num">7</span> Reporte final y envío</h2>
+
+  <h3>Reporte del vocal</h3>
+  <p>
+    Cuando termina el partido, escribe tus observaciones: incidentes, comportamiento, lo que
+    consideres importante que quede registrado.
+  </p>
+  <ul class="steps">
+    <li><span class="dot">1</span> Baja hasta <strong>"Reporte del Vocal"</strong></li>
+    <li><span class="dot">2</span> Escribe tus observaciones</li>
+    <li><span class="dot">3</span> Clic en <strong>"Guardar reporte del vocal"</strong></li>
+  </ul>
+
+  <div class="foto">
+    <div class="titulo">📸 CAPTURA 15</div>
+    <div>Sección "Reporte del Vocal" con el campo de texto y el botón guardar</div>
+  </div>
+
+  <h3>Enviar el informe por correo</h3>
+  <p>
+    Una vez todo listo, envía el informe completo. El correo incluye el marcador, los goles y
+    tarjetas por jugador, el informe del árbitro, tu reporte y la cronología del partido.
+  </p>
+  <ul class="steps">
+    <li><span class="dot">1</span> Baja hasta <strong>"Informe en PDF"</strong></li>
+    <li><span class="dot">2</span> Clic en <strong>"✉️ Enviar informe a representantes"</strong></li>
+    <li><span class="dot">3</span> El sistema envía solo a todos los destinatarios</li>
+  </ul>
+
+  <div class="foto">
+    <div class="titulo">📸 CAPTURA 16</div>
+    <div>Botones "Descargar PDF" y "✉️ Enviar informe a representantes"</div>
+  </div>
+
+  <p>El correo les llega automáticamente a:</p>
+  <ul class="steps">
+    <li><span class="dot">→</span> Representantes del equipo local</li>
+    <li><span class="dot">→</span> Representantes del equipo visitante</li>
+    <li><span class="dot">→</span> A ti (el vocal asignado)</li>
+    <li><span class="dot">→</span> La coordinación del torneo</li>
+  </ul>
+
+  <div class="ok">
+    ✅ También puedes bajar el informe en PDF con "Descargar PDF" si quieres tener una copia.
+  </div>
+</div>
+
+<!-- 8. PREGUNTAS FRECUENTES -->
+<div class="page">
+  <h2><span class="num">8</span> Preguntas frecuentes</h2>
+
+  <div class="faq">
+    <div class="faq-item">
+      <div class="q">❓ ¿Puedo hacer la vocalía desde el celular?</div>
+      <div class="a">Sí. Abre el enlace del correo en el navegador del celular y todo funciona igual.</div>
+    </div>
+    <div class="faq-item">
+      <div class="q">❓ ¿Si cierro la pestaña pierdo todo?</div>
+      <div class="a">No. Tu sesión queda guardada en el dispositivo. Vuelve a abrir el enlace y sigues donde ibas (mismo navegador y dispositivo).</div>
+    </div>
+    <div class="faq-item">
+      <div class="q">❓ Me equivoqué registrando un gol, ¿qué hago?</div>
+      <div class="a">En la cronología de eventos puedes eliminar el evento erróneo. El marcador se corrige solo.</div>
+    </div>
+    <div class="faq-item">
+      <div class="q">❓ El cronómetro llegó a 35 min pero el árbitro no ha pitado, ¿qué hago?</div>
+      <div class="a">Nada todavía. El reloj se para solo pero el partido sigue hasta que el árbitro pite. Puedes seguir registrando eventos normalmente.</div>
+    </div>
+    <div class="faq-item">
+      <div class="q">❓ Un jugador con tarjetas aparece disponible para alinear, ¿es normal?</div>
+      <div class="a">El sistema bloquea automáticamente a los sancionados. Si crees que hay un error, avísale al administrador.</div>
+    </div>
+    <div class="faq-item">
+      <div class="q">❓ ¿Cuándo llega el correo del informe a los representantes?</div>
+      <div class="a">Solo cuando tú presionas "✉️ Enviar informe a representantes". No se envía automáticamente al guardar los reportes.</div>
+    </div>
+    <div class="faq-item">
+      <div class="q">❓ No me llegó el código OTP al correo</div>
+      <div class="a">Revisa spam. Si no está, pídele al administrador el código — lo puede ver directo en el panel del partido.</div>
+    </div>
+  </div>
+
+  <!-- RESUMEN FINAL -->
+  <h3 style="margin-top: 24px;">Los pasos en orden</h3>
+  <table class="resumen">
+    <thead>
+      <tr><th></th><th>Acción</th><th>Cuándo</th></tr>
+    </thead>
+    <tbody>
+      <tr><td class="check">✔</td><td>Recibir el código OTP por correo</td><td>Antes del partido</td></tr>
+      <tr><td class="check">✔</td><td>Ingresar con el código</td><td>Antes del partido</td></tr>
+      <tr><td class="check">✔</td><td>Registrar alineaciones (local y visitante)</td><td>Antes de iniciar</td></tr>
+      <tr><td class="check">✔</td><td>Pulsar "Iniciar partido"</td><td>Al comenzar</td></tr>
+      <tr><td class="check">✔</td><td>Registrar goles, tarjetas y cambios</td><td>Durante el partido</td></tr>
+      <tr><td class="check">✔</td><td>Pulsar "Fin del primer tiempo"</td><td>Al pitar descanso</td></tr>
+      <tr><td class="check">✔</td><td>Pulsar "Iniciar segundo tiempo"</td><td>Al reanudar</td></tr>
+      <tr><td class="check">✔</td><td>Pulsar "Finalizar partido"</td><td>Al terminar</td></tr>
+      <tr><td class="check">✔</td><td>Escribir y guardar el reporte del vocal</td><td>Después de finalizar</td></tr>
+      <tr><td class="check">✔</td><td>Enviar informe a representantes</td><td>Al terminar todo</td></tr>
+    </tbody>
+  </table>
+
+  <div style="margin-top: 28px; text-align: center; color: #94a3b8; font-size: 9pt;">
+    Copa Mazorca de Oro · Sistema Vocalia Fútbol
+  </div>
+</div>
+
+</body>
+</html>

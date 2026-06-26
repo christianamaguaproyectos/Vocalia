@@ -1,0 +1,20 @@
+{
+  "rules": {
+    "presence": {
+      ".read": "auth != null",
+      "$sessionId": {
+        ".write": "auth != null"
+      }
+    },
+    "stats": {
+      "peakOnline": {
+        ".read": "auth != null",
+        ".write": "auth != null"
+      }
+    },
+    "$other": {
+      ".read": false,
+      ".write": false
+    }
+  }
+}

@@ -1,0 +1,57 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function userDoc(userId) {
+      return get(/databases/$(database)/documents/users/$(userId));
+    }
+
+    function isSuperadmin() {
+      return isSignedIn()
+        && exists(/databases/$(database)/documents/users/$(request.auth.uid))
+        && userDoc(request.auth.uid).data.role == 'superadmin';
+    }
+
+    // Roles con permiso para gestionar torneos (incluye vocalía, que envía reportes).
+    function canEditTournaments() {
+      return isSignedIn()
+        && exists(/databases/$(database)/documents/users/$(request.auth.uid))
+        && userDoc(request.auth.uid).data.role in ['superadmin', 'admin', 'vocalia'];
+    }
+
+    // --- Usuarios ---
+    // - Cualquier usuario autenticado puede leer/crear/actualizar SU propio documento
+    //   (necesario para el bootstrap de sesión en ensureUserDocument).
+    // - Solo superadmin puede listar toda la colección y borrar documentos.
+    match /users/{userId} {
+      allow get: if isSuperadmin() || (isSignedIn() && request.auth.uid == userId);
+      allow list: if isSuperadmin();
+      allow create: if isSignedIn() && (request.auth.uid == userId || isSuperadmin());
+      // Usuarios normales solo pueden actualizar campos no privilegiados (no role, disabled, deleted, status)
+      allow update: if isSuperadmin() || (
+        isSignedIn()
+        && request.auth.uid == userId
+        && !request.resource.data.diff(resource.data).affectedKeys()
+            .hasAny(['role', 'disabled', 'deleted', 'status', 'teamId'])
+      );
+      allow delete: if isSuperadmin();
+    }
+
+    // --- Torneos / equipos / partidos (y subcolecciones) ---
+    // Lectura pública (el sitio muestra resultados); escritura para roles de gestión.
+    match /tournaments/{document=**} {
+      allow read: if isSignedIn();
+      allow write: if canEditTournaments();
+    }
+
+    // --- Auditoría de borrado de cédulas ---
+    match /audit/{document=**} {
+      allow read, write: if isSignedIn()
+        && exists(/databases/$(database)/documents/users/$(request.auth.uid))
+        && userDoc(request.auth.uid).data.role in ['superadmin', 'admin'];
+    }
+  }
+}
