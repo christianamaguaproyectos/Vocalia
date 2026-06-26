@@ -255,10 +255,10 @@ export const TeamList = ({ tournamentId = APP_CONFIG.defaultTournamentId, readOn
       const buffer = await file.arrayBuffer();
 
       // Algunos Excel con imágenes incrustadas corrompen el ZIP interno de SheetJS.
-      // Intentamos con bookImages:false para saltar medios; si sigue fallando, mensaje claro.
+      // Si la lectura falla por ese motivo, el catch de abajo da un mensaje claro.
       let workbook: ReturnType<typeof XLSX.read>;
       try {
-        workbook = XLSX.read(buffer, { type: 'array', bookImages: false, cellFormula: false });
+        workbook = XLSX.read(buffer, { type: 'array', cellFormula: false });
       } catch (readErr) {
         const msg = String(readErr);
         if (msg.includes('compressed size') || msg.includes('Bad') || msg.includes('inflate')) {

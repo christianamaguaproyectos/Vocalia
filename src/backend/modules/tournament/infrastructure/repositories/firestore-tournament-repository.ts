@@ -30,7 +30,7 @@ const mapTournamentFromFirestore = (snapshot: DocumentData, id: string): Tournam
   const fallbackMaxTeams = Math.max(1, Math.floor(config.teamsCount / 2));
   const groups = Array.isArray(snapshot.groups)
     ? snapshot.groups.map((group: DocumentData) => ({
-      id: group.id === 'B' ? 'B' : 'A',
+      id: (group.id === 'B' ? 'B' : 'A') as 'A' | 'B',
       name: typeof group.name === 'string' && group.name.trim() ? group.name : `Grupo ${group.id === 'B' ? 'B' : 'A'}`,
       maxTeams: typeof group.maxTeams === 'number' && group.maxTeams > 0 ? Math.floor(group.maxTeams) : fallbackMaxTeams,
     }))

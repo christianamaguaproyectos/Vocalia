@@ -339,6 +339,10 @@ export const recordMatchEventUseCase = ({ matchRepository, tournamentRepository,
   const tournament = await tournamentRepository.findById(match.tournamentId);
 
   if (input.event.type === 'SUBSTITUTION') {
+    // Capturamos el id ya estrechado: dentro de los closures de abajo (filter/some)
+    // TypeScript pierde el narrowing de `input.event` y `playerInId` no sería accesible.
+    const incomingPlayerId = input.event.playerInId;
+
     if (input.event.playerInId === input.event.playerOutId) {
       throw new Error('Un jugador no puede sustituirse a sí mismo.');
     }
@@ -365,7 +369,7 @@ export const recordMatchEventUseCase = ({ matchRepository, tournamentRepository,
     }
 
     if (!allowReentry) {
-      const playerAlreadyOut = substitutionsByTeam.some((event) => event.playerOutId === input.event.playerInId);
+      const playerAlreadyOut = substitutionsByTeam.some((event) => event.playerOutId === incomingPlayerId);
       if (playerAlreadyOut) {
         throw new Error('La configuración del torneo no permite reingreso de jugadores ya sustituidos.');
       }

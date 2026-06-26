@@ -1,7 +1,6 @@
 import type { Match } from '../../domain/entities/match.ts';
 import type { MatchRepository } from '../../domain/repositories/index.ts';
 import type { MatchStatus, TournamentId } from '../../domain/value-objects/index.ts';
-import type { KnockoutStage } from '../../domain/value-objects/match-stage.ts';
 
 export interface SanitizeKnockoutBracketDeps {
   matchRepository: MatchRepository;
@@ -169,7 +168,7 @@ export const sanitizeKnockoutBracketUseCase = ({ matchRepository }: SanitizeKnoc
       let keeper = bucket[0];
 
       if (!keeper && unassignedPool.length > 0) {
-        keeper = unassignedPool.shift();
+        keeper = unassignedPool.shift()!; // length > 0 garantiza un valor definido
       }
 
       if (!keeper) {

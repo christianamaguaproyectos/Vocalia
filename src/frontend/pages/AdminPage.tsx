@@ -4,7 +4,6 @@ import { db } from '../../backend/lib/firebase.ts';
 import { useAppDependencies } from '../app/providers/AppDependenciesProvider.tsx';
 import { APP_CONFIG } from '../../core/config/app-config.ts';
 import {
-  assignVocalAccessUseCase,
   createTestTeamsUseCase,
   deleteTournamentUseCase,
   generateGroupMatchesUseCase,
@@ -22,7 +21,6 @@ import { resizeImageToBase64 } from '../shared/utils/image.ts';
 import type { GroupId } from '../../backend/modules/tournament/domain/value-objects/index.ts';
 import type { Match } from '../../backend/modules/tournament/domain/entities/index.ts';
 import type { TournamentConfig, TiebreakerCriterion } from '../../backend/modules/tournament/domain/entities/tournament.ts';
-import { listVocaliaUsers } from '../shared/auth/vocalia-users.ts';
 
 const TIEBREAKER_OPTIONS: Array<{ value: TiebreakerCriterion; label: string }> = [
   { value: 'GOAL_DIFFERENCE', label: 'Diferencia de gol' },
@@ -112,11 +110,6 @@ export const AdminPage = () => {
   const generateKnockoutMatches = useMemo(
     () => generateKnockoutMatchesUseCase({ matchRepository, teamRepository, tournamentRepository }),
     [matchRepository, teamRepository, tournamentRepository],
-  );
-
-  const assignVocalAccess = useMemo(
-    () => assignVocalAccessUseCase({ matchRepository, teamRepository }),
-    [matchRepository, teamRepository],
   );
 
   const simulateKnockoutStage = useMemo(

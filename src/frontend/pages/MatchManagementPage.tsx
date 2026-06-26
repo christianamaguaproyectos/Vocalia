@@ -317,14 +317,11 @@ export const MatchManagementPage = () => {
     setVocalReportNotes('');
   }, [match?.vocalReport]);
 
-  useEffect(() => {
-    if (match?.vocalAccess?.assignedEmail) {
-      setVocalAccessEmail(match.vocalAccess.assignedEmail);
-      return;
-    }
-
-    setVocalAccessEmail('');
-  }, [match?.vocalAccess?.assignedEmail]);
+  // La pre-selección del correo del vocal (incluida la asignación previa) se
+  // resuelve en un único efecto más abajo, una vez conocidas las opciones reales
+  // del <select> (suggestedVocal + usuarios con rol vocalía). Hacerlo aquí, antes
+  // de conocer esas opciones, fijaba el valor a una asignación que ya no existe
+  // como opción y provocaba que el desplegable mostrara un correo y se enviara otro.
 
   useEffect(() => {
     if (isVocalAccessMode) {
@@ -1156,19 +1153,46 @@ export const MatchManagementPage = () => {
     [match, matches, allTournamentTeams],
   );
 
-  // Pre-selecciona el correo del vocal: primero la sugerencia por rotación;
-  // si no hay, el primer usuario con rol vocalía disponible.
+  // Pre-selecciona el correo del vocal en el <select>, garantizando que el valor
+  // seleccionado SIEMPRE corresponda a una opción real del desplegable. Sin esto,
+  // si el admin corrige el correo del responsable (cambia la opción sugerida) pero
+  // el estado conserva la asignación previa, el desplegable muestra el correo nuevo
+  // mientras que "Generar y enviar" usa el viejo: se reenvía al correo equivocado.
   useEffect(() => {
-    if (isVocalAccessMode || match?.vocalAccess?.assignedEmail || vocalAccessEmail) {
+    if (isVocalAccessMode) {
       return;
     }
 
-    if (suggestedVocal?.email) {
-      setVocalAccessEmail(suggestedVocal.email);
-    } else if (vocaliaUsers.length > 0) {
-      setVocalAccessEmail(vocaliaUsers[0].email);
+    // Correos realmente seleccionables (los mismos que se pintan como <option>).
+    const availableEmails = [
+      suggestedVocal?.email,
+      ...vocaliaUsers.map((vocalUser) => vocalUser.email),
+    ].filter((email): email is string => Boolean(email));
+
+    // Aún no hay opciones cargadas: no toques la selección para no perder el valor.
+    if (availableEmails.length === 0) {
+      return;
     }
-  }, [isVocalAccessMode, match?.vocalAccess?.assignedEmail, vocalAccessEmail, suggestedVocal, vocaliaUsers]);
+
+    // Conserva la elección actual del admin si sigue siendo una opción válida.
+    if (vocalAccessEmail && availableEmails.includes(vocalAccessEmail)) {
+      return;
+    }
+
+    // Por defecto: la asignación previa solo si todavía es una opción válida; si el
+    // correo cambió en administración, cae a la sugerencia por rotación y, si no, al
+    // primer usuario con rol vocalía.
+    const assignedEmail = match?.vocalAccess?.assignedEmail;
+    const nextEmail =
+      (assignedEmail && availableEmails.includes(assignedEmail) ? assignedEmail : '') ||
+      suggestedVocal?.email ||
+      vocaliaUsers[0]?.email ||
+      '';
+
+    if (nextEmail && nextEmail !== vocalAccessEmail) {
+      setVocalAccessEmail(nextEmail);
+    }
+  }, [isVocalAccessMode, suggestedVocal, vocaliaUsers, vocalAccessEmail, match?.vocalAccess?.assignedEmail]);
 
   useEffect(() => {
     if (!match?.tournamentId || allTournamentTeams.length === 0) {
@@ -2171,13 +2195,6 @@ export const MatchManagementPage = () => {
         doc.setFont('helvetica', 'normal');
         doc.setFontSize(10);
         doc.setTextColor(55, 65, 81);
-      };
-
-      const formatPlayerList = (ids?: string[]) => {
-        if (!ids || ids.length === 0) {
-          return 'Sin datos';
-        }
-        return ids.map((playerId) => getPlayerLabel(playerId) || playerId).join(', ');
       };
 
       const writeRow = (label: string, value?: string) => {

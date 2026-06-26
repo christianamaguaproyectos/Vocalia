@@ -1,4 +1,4 @@
-import { FormEvent, useEffect, useState } from 'react';
+import { useEffect, useState, type FormEvent } from 'react';
 import { Link, useLocation, useNavigate, type Location } from 'react-router-dom';
 
 import { useAuth } from '../app/providers/AuthProvider.tsx';

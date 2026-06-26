@@ -15,7 +15,6 @@ export const HomePage = () => {
   const { matches } = useMatches(tournamentId);
   const qualifiedCount = tournament?.config.qualifiedCount ?? 8;
   const tournamentPrimaryColor = tournament?.config.tournamentPrimaryColor ?? '#4f46e5';
-  const tournamentLogoUrl = tournament?.config.tournamentLogoUrl?.trim() || null;
 
   const liveMatches = matches.filter((m) => m.status === 'LIVE');
   const upcomingMatches = matches

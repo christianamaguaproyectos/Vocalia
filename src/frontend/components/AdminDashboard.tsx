@@ -55,7 +55,7 @@ export const AdminDashboard = ({ teams, matches }: Props) => {
 
   const finishedMatches = matches.filter((m) => m.status === 'FINISHED');
   const scheduledMatches = matches.filter((m) => m.status === 'SCHEDULED');
-  const liveMatches = matches.filter((m) => m.status === 'IN_PROGRESS');
+  const liveMatches = matches.filter((m) => m.status === 'LIVE');
 
   const totalGoals = finishedMatches.reduce(
     (s, m) => s + (m.score?.home ?? 0) + (m.score?.away ?? 0),
