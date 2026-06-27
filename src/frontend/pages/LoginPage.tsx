@@ -2,6 +2,8 @@ import { useEffect, useState, type FormEvent } from 'react';
 import { Link, useLocation, useNavigate, type Location } from 'react-router-dom';
 
 import { useAuth } from '../app/providers/AuthProvider.tsx';
+import { useTournament } from '../../backend/modules/tournament/presentation/hooks/index.ts';
+import { APP_CONFIG } from '../../core/config/app-config.ts';
 
 export const LoginPage = () => {
   const { signIn, user, role, loading, authMessage } = useAuth();
@@ -11,6 +13,10 @@ export const LoginPage = () => {
   const [password, setPassword] = useState('');
   const [error, setError] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const { tournament } = useTournament(APP_CONFIG.defaultTournamentId);
+  const tournamentLogoUrl = tournament?.config.tournamentLogoUrl?.trim() || '/DANEC.jpg';
+  const tournamentName = tournament?.name?.trim() || 'Mazorca de Oro';
 
   const redirectPath = (location.state as { from?: Location })?.from?.pathname ?? '/admin';
 
@@ -43,6 +49,16 @@ export const LoginPage = () => {
   return (
     <div className="flex min-h-[70vh] items-center justify-center bg-gray-50">
       <div className="w-full max-w-md rounded-lg bg-white p-8 shadow">
+        <div className="mb-6 flex flex-col items-center gap-3">
+          <img
+            src={tournamentLogoUrl}
+            alt={`Logo ${tournamentName}`}
+            className="h-20 w-auto object-contain"
+            onError={(event) => { event.currentTarget.src = '/DANEC.jpg'; }}
+          />
+          <span className="text-lg font-bold text-gray-800">{tournamentName}</span>
+        </div>
+
         <h1 className="mb-2 text-2xl font-bold text-gray-900">Acceso administrativo</h1>
         <p className="mb-6 text-sm text-gray-500">Ingresa tus credenciales para administrar el torneo.</p>
 
