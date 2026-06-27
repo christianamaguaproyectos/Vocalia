@@ -351,14 +351,16 @@ export class FirestoreMatchRepository implements MatchRepository {
     return { ...event, id: newRef.id } as MatchEvent;
   }
 
-  async listEvents(matchId: MatchId, tournamentId?: TournamentId): Promise<MatchEvent[]> {
+  async listEvents(matchId: MatchId, tournamentId?: TournamentId, options?: { forceServer?: boolean }): Promise<MatchEvent[]> {
     const tid = tournamentId ?? (await this.findById(matchId))?.tournamentId;
     if (!tid) {
       throw new Error('Match not found');
     }
 
     const eventsRef = withMatchEventsCollection(this.store, tid, matchId);
-    const snapshot = await getDocsPreferCache(eventsRef);
+    const snapshot = options?.forceServer
+      ? await getDocsFromServer(eventsRef)
+      : await getDocsPreferCache(eventsRef);
     const events = snapshot.docs.map((docSnapshot) => mapEventFromFirestore(docSnapshot.data(), docSnapshot.id));
 
     return events.sort((a, b) => {

@@ -35,7 +35,10 @@ export const PlayerStatsSection = ({ tournamentId, teams, matches }: PlayerStats
         setIsLoading(true);
         setError(null);
 
-        const eventsPerMatch = await Promise.all(matches.map((match) => matchRepository.listEvents(match.id, match.tournamentId)));
+        // Forzamos lectura desde servidor para que los goles y tarjetas de partidos
+        // en vivo aparezcan de inmediato. Con caché, los eventos recién registrados
+        // no se reflejan hasta que algo invalide el caché local.
+        const eventsPerMatch = await Promise.all(matches.map((match) => matchRepository.listEvents(match.id, match.tournamentId, { forceServer: true })));
         if (!isActive) {
           return;
         }

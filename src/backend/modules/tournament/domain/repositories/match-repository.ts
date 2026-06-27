@@ -35,7 +35,7 @@ export interface MatchRepository {
   appendKnockoutProgressAuditLog(input: KnockoutProgressAuditLog): Promise<void>;
 
   appendEvent(matchId: MatchId, event: Omit<MatchEvent, 'id'>, tournamentId?: TournamentId): Promise<MatchEvent>;
-  listEvents(matchId: MatchId, tournamentId?: TournamentId): Promise<MatchEvent[]>;
+  listEvents(matchId: MatchId, tournamentId?: TournamentId, options?: { forceServer?: boolean }): Promise<MatchEvent[]>;
   updateEvent(matchId: MatchId, eventId: MatchEventId, updates: Partial<Omit<MatchEvent, 'id'>>, tournamentId?: TournamentId): Promise<void>;
   removeEvent(matchId: MatchId, eventId: MatchEventId, tournamentId?: TournamentId): Promise<void>;
   listenEvents(matchId: MatchId, listener: RealtimeListener<MatchEvent[]>, tournamentId?: TournamentId): UnsubscribeFn;
