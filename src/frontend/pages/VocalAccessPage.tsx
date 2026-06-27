@@ -1,7 +1,10 @@
 import { useEffect, useMemo, useState } from 'react';
 import type { FormEvent } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
+import { signInAnonymously } from 'firebase/auth';
+import { doc, setDoc, Timestamp } from 'firebase/firestore';
 
+import { auth, db } from '../../backend/lib/firebase.ts';
 import { useAppDependencies } from '../app/providers/AppDependenciesProvider.tsx';
 import { hashVocalOtp } from '../shared/auth/vocal-otp.ts';
 import { saveVocalAccessSession } from '../shared/auth/vocal-access-session.ts';
@@ -33,6 +36,12 @@ export const VocalAccessPage = () => {
       try {
         setIsLoading(true);
         setError(null);
+
+        // Si no hay usuario autenticado, iniciar sesión anónima para poder
+        // leer los datos del partido desde Firestore (las reglas exigen auth).
+        if (!auth.currentUser) {
+          await signInAnonymously(auth);
+        }
 
         const match = await matchRepository.findById(matchId, undefined, { forceServer: true });
         if (!active) {
@@ -86,6 +95,7 @@ export const VocalAccessPage = () => {
     };
   }, [matchId, matchRepository, teamRepository]);
 
+
   const maskedEmail = useMemo(() => {
     if (!assignedEmail.includes('@')) {
       return assignedEmail;
@@ -129,6 +139,20 @@ export const VocalAccessPage = () => {
         verifiedAt: new Date().toISOString(),
         expiresAt: effectiveExpiresAt,
       });
+
+      // El usuario entró con signInAnonymously, que solo tiene permiso de lectura.
+      // Creamos su documento en /users/ con role:'vocalia' para que Firestore permita
+      // las escrituras que hace la vocalía (iniciar partido, alineaciones, eventos, etc.).
+      const currentUser = auth.currentUser;
+      if (currentUser) {
+        await setDoc(doc(db, 'users', currentUser.uid), {
+          role: 'vocalia',
+          email: assignedEmail,
+          isAnonymousVocal: true,
+          vocalMatchId: matchId,
+          createdAt: Timestamp.fromDate(new Date()),
+        });
+      }
 
       navigate(`/vocal/match/${matchId}`, { replace: true });
     } finally {

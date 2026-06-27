@@ -36,7 +36,11 @@ const ensureNoOverlap = (lists: PlayerId[][]): void => {
 export const updateMatchLineupUseCase = ({ matchRepository, teamRepository, tournamentRepository }: UpdateMatchLineupDeps) => async (
   input: UpdateMatchLineupInput,
 ): Promise<MatchLineups> => {
-  const match = await matchRepository.findById(input.matchId, input.tournamentId);
+  // Forzamos lectura desde el servidor (no caché) para asegurar que las lineups ya
+  // guardadas (home o away) estén presentes al hacer el merge. Sin esto, guardar
+  // una alineación inmediatamente después de otra devuelve la versión cacheada sin
+  // la primera y el merge la sobrescribe, borrando la alineación anterior.
+  const match = await matchRepository.findById(input.matchId, input.tournamentId, { forceServer: true });
 
   if (!match) {
     throw new Error('No se encontró el partido.');

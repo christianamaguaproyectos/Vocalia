@@ -22,14 +22,32 @@ service cloud.firestore {
         && userDoc(request.auth.uid).data.role in ['superadmin', 'admin', 'vocalia'];
     }
 
+    // Devuelve true si el usuario que hace la solicitud se autenticó de forma anónima.
+    function isAnonymousUser() {
+      return request.auth.token.firebase.sign_in_provider == 'anonymous';
+    }
+
     // --- Usuarios ---
     // - Cualquier usuario autenticado puede leer/crear/actualizar SU propio documento
     //   (necesario para el bootstrap de sesión en ensureUserDocument).
+    // - Los vocales anónimos pueden crear su propio documento únicamente con role:'vocalia'
+    //   (se crea tras validar el OTP en VocalAccessPage para habilitar escrituras Firestore).
     // - Solo superadmin puede listar toda la colección y borrar documentos.
     match /users/{userId} {
       allow get: if isSuperadmin() || (isSignedIn() && request.auth.uid == userId);
       allow list: if isSuperadmin();
-      allow create: if isSignedIn() && (request.auth.uid == userId || isSuperadmin());
+      allow create: if isSignedIn() && (
+        isSuperadmin()
+        || (
+          request.auth.uid == userId
+          && (
+            // Usuario anónimo (vocal): solo puede crearse con role 'vocalia'
+            (isAnonymousUser() && request.resource.data.role == 'vocalia')
+            // Usuario normal (bootstrap de sesión): no puede asignarse roles elevados
+            || (!isAnonymousUser() && !request.resource.data.keys().hasAny(['role', 'disabled', 'deleted', 'status', 'teamId']))
+          )
+        )
+      );
       // Usuarios normales solo pueden actualizar campos no privilegiados (no role, disabled, deleted, status)
       allow update: if isSuperadmin() || (
         isSignedIn()
